@@ -1,0 +1,10 @@
+# ignore data directories
+/chronograf/chronograf/*
+/grafana/grafana/*
+/influxdb/influxdb/*
+/kapacitor/kapacitor/*
+/telegraf/telegraf.d/*
+
+# .gitkeep
+!.gitkeep
+
