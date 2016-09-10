@@ -1,0 +1,73 @@
+version: '2'
+
+services:
+  influxdb:
+    image: influxdb:0.13-alpine
+    command: -config /etc/influxdb/influxdb.conf
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+    volumes:
+      - "./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro"
+      - "./influxdb/influxdb:/var/lib/influxdb"
+    networks:
+      - backend
+    hostname: influxdb
+    privileged: true
+  telegraf:
+    image: telegraf:0.13-alpine
+    command: -config /etc/telegraf/telegraf.conf -config-directory /etc/telegraf/telegraf.d
+    volumes:
+      - "./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
+      - "./telegraf/telegraf.d:/etc/telegraf/telegraf.d:ro"
+    depends_on:
+      - influxdb
+    networks:
+      - backend
+    hostname: telegraf
+    privileged: true
+  chronograf:
+    image: chronograf:0.13
+    command: -config /etc/chronograf/chronograf.conf
+    ports:
+      - "10000:10000"
+    volumes:
+      - "./chronograf/chronograf.conf:/etc/chronograf/chronograf.conf:ro"
+      - "./chronograf/chronograf:/var/lib/chronograf"
+    depends_on:
+      - influxdb
+    networks:
+      - backend
+    hostname: chronograf
+    privileged: true
+  kapacitor:
+    image: kapacitor:0.13-alpine
+    command: -config /etc/kapacitor/kapacitor.conf
+    ports:
+      - "9092:9092"
+    volumes:
+      - "./kapacitor/kapacitor.conf:/etc/kapacitor/kapacitor.conf:ro"
+      - "./kapacitor/kapacitor:/var/lib/kapacitor"
+    depends_on:
+      - influxdb
+    networks:
+      - backend
+    hostname: kapacitor
+    privileged: true
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./grafana/grafana.ini:/etc/grafana/grafana.ini"
+      - "./grafana/grafana:/var/lib/grafana"
+    depends_on:
+      - influxdb
+    networks:
+      - backend
+    hostname: grafana
+
+networks:
+  backend:
+    driver: bridge
+
