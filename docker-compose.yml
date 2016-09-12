@@ -66,6 +66,7 @@ services:
     networks:
       - backend
     hostname: grafana
+    privileged: true
 
 networks:
   backend:
