@@ -29,6 +29,24 @@ Grafana use latest image.
 - Docker Engine 1.10.0 or above
 - Docker Compose 1.6.0 or above
 
+## Installation
+
+
+``` bash
+git pull https://github.com/passer-b/alt-tick-compose.git
+```
+
+## Usage
+
+
+``` bash
+docker-compose up
+
+docker-compose down
+```
+
+If you want to learn more usage, see [docker-compose documents](https://docs.docker.com/compose/reference/).
+
 ## Configuration
 
 TBD
