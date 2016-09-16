@@ -33,7 +33,7 @@ Grafana use latest image.
 
 
 ``` bash
-git pull https://github.com/passer-b/alt-tick-compose.git
+git clone https://github.com/passer-b/alt-tick-compose.git
 ```
 
 ## Usage
